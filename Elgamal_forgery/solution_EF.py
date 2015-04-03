@@ -29,12 +29,26 @@ if __name__ == "__main__" :
     g = challenge['g']
     h = challenge['h']
 
+    q = p-1
+    c = random.randrange(1,p-1)
+    b = random.randrange(1,p-1)
 
-    print(p)
-    print(h)
-    print(g)
+    #c ne doit pas avoir de diviseur commun avec q autre que 1
+    while(XGCD(c,q)[0]!=1):
+        print("while")
+        c = random.randrange(1,p-1)
+
+    r = (pow(g,b,p) * pow(h,c,p)) % p
+
+    s = ((-1) * (r * modinv(c,q)))%q
 
 
 
 
+    message = (b * s) % q
+
+    signature = (r,s)
+
+    status = server.query("verify/verkyndt", {"m":message,"signature":signature})
+    print(status)
     print("Fermeture du programme.")
